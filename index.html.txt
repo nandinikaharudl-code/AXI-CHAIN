@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AXI-CHAIN - Supply Chain Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>AXI-CHAIN — Supply Chain Tracker (Demo)</h1>
+
+  <section>
+    <h2>Register Product</h2>
+    <input id="p_name" placeholder="Product name">
+    <input id="p_serial" placeholder="Serial number">
+    <button id="btn_register">Register</button>
+  </section>
+
+  <section>
+    <h2>Update Movement</h2>
+    <input id="u_serial" placeholder="Serial number">
+    <input id="u_loc" placeholder="Location">
+    <button id="btn_update">Update</button>
+  </section>
+
+  <section>
+    <h2>Verify</h2>
+    <input id="v_serial" placeholder="Serial number">
+    <button id="btn_verify">Verify</button>
+    <pre id="out"></pre>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

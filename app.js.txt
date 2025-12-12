@@ -1,0 +1,41 @@
+// Simple demo ledger stored in localStorage
+const STORAGE_KEY = 'axi_chain_ledger';
+
+function readLedger(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {products:[]}; }
+  catch(e){ return {products:[]}; }
+}
+function writeLedger(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+document.getElementById('btn_register').onclick = ()=>{
+  const name = document.getElementById('p_name').value.trim();
+  const serial = document.getElementById('p_serial').value.trim();
+  if(!name || !serial) return alert('Name & serial required');
+  const ledger = readLedger();
+  if(ledger.products.find(p=>p.serial===serial)) return alert('Product already exists');
+  const product = {name, serial, history:[{event:'registered',by:'manufacturer',at:Date.now()}]};
+  ledger.products.push(product);
+  writeLedger(ledger);
+  alert('Registered ✔️');
+};
+
+document.getElementById('btn_update').onclick = ()=>{
+  const serial = document.getElementById('u_serial').value.trim();
+  const loc = document.getElementById('u_loc').value.trim();
+  if(!serial) return alert('Serial required');
+  const ledger = readLedger();
+  const p = ledger.products.find(x=>x.serial===serial);
+  if(!p) return alert('Product not found');
+  p.history.push({event:'moved', location: loc||'unknown', by:'actor', at:Date.now()});
+  writeLedger(ledger);
+  alert('Updated ✔️');
+};
+
+document.getElementById('btn_verify').onclick = ()=>{
+  const serial = document.getElementById('v_serial').value.trim();
+  const ledger = readLedger();
+  const p = ledger.products.find(x=>x.serial===serial);
+  const out = document.getElementById('out');
+  if(!p) out.textContent = JSON.stringify({authentic:false,reason:'not found'}, null, 2);
+  else out.textContent = JSON.stringify({authentic:true,product:p}, null, 2);
+};
